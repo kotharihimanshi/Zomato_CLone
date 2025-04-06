@@ -8,24 +8,35 @@ import Footer from './components/Footer/Footer'
 import AppDownload from './components/AppDownload/AppDownload'
 import Login from './components/Login/Login'
 import OrderConfirmation from './pages/OrderConfirmation'
+import Chatbot from './components/ChatBot/ChatBot'
 
 const App = () => {
+  const [showLogin, setShowLogin] = useState(false)
+  const [showChatbot, setShowChatbot] = useState(false) 
 
-  const [showLogin , setShowLogin] = useState(false)
   return (
     <>
-    {showLogin ? <Login setShowLogin = {setShowLogin}/>: <></>}
-    <div className='app'>
-      <Navbar setShowLogin = {setShowLogin} />
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/cart' element={<Cart />} />
-        <Route path='/order' element={<Placeorder />} />
-        <Route path="/order-confirmation" element={<OrderConfirmation />} />
-        </Routes>
-    </div>
-    <Footer />
+      {showLogin && <Login setShowLogin={setShowLogin} />}
 
+      <div className='app'>
+        <Navbar
+          setShowLogin={setShowLogin}
+          toggleChatbot={() => setShowChatbot(prev => !prev)} 
+          showChatbot={showChatbot} 
+        />
+
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/cart' element={<Cart />} />
+          <Route path='/order' element={<Placeorder />} />
+          <Route path="/order-confirmation" element={<OrderConfirmation />} />
+        </Routes>
+      </div>
+
+      <Footer />
+
+      {/* ✅ Conditionally render the chatbot */}
+      {showChatbot && <Chatbot />}
     </>
   )
 }
